@@ -99,10 +99,33 @@
     }
   }
 
+  function determineRatingBgc(rating) {
+    if (rating <=6) {
+      return 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%)';
+    }
+
+    if( rating > 6 && rating <= 8) {
+      return 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%)';
+    }
+
+    if (rating > 8 && rating <= 9) {
+      return 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%)';
+    }
+
+    if (rating > 9) {
+      return 'linear-gradient(to bottom, #ff0084 0%,#ff0084 100%)';
+    }
+  }
+
   function render() {
     const bookList = document.querySelector(select.booksList);
 
     dataSource.books.forEach((book) => {
+      const ratingBgc = determineRatingBgc(book.rating);
+      const ratingWidth = book.rating * 10;
+      book.ratingBgc = ratingBgc;
+      book.ratingWidth = ratingWidth;
+
       const generatedHTML = templates.templateBook(book);
       const generatedListElement = utils.createDOMFromHTML(generatedHTML);
       bookList.appendChild(generatedListElement);
