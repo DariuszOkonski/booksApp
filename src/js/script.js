@@ -7,6 +7,7 @@
     },
     booksList: '.books-list',
     booksImages: '.books-list .book__image',
+    filters: '.filters',
   };
 
   const identificators = {
@@ -26,6 +27,7 @@
   };
 
   let favoriteBooks = [];
+  let filters = [];
 
   function initActions() {
     const booksList = document.querySelector(select.booksList);
@@ -44,6 +46,17 @@
         } else {
           favoriteBooks = favoriteBooks.filter((id) => id !== dataId);
           target.classList.remove(identificators.class.favorite);
+        }
+      }
+    });
+
+    const filtersDOMElement = document.querySelector(select.filters);
+    filtersDOMElement.addEventListener('click', function (event) {
+      if (event.target.type === 'checkbox') {
+        if (event.target.checked) {
+          filters.push(event.target.value);
+        } else {
+          filters = filters.filter((item) => item !== event.target.value);
         }
       }
     });
