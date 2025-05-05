@@ -12,12 +12,10 @@
   const identificators = {
     class: {
       favorite: 'favorite',
+      bookImage: 'book__image',
     },
     attributes: {
       bookImageDataId: 'data-id',
-    },
-    events: {
-      doubleClick: 'dblclick',
     },
   };
 
@@ -30,28 +28,25 @@
   let favoriteBooks = [];
 
   function initActions() {
-    const booksImages = document.querySelectorAll(select.booksImages);
-    for (const book of booksImages) {
-      book.addEventListener(
-        identificators.events.doubleClick,
-        function (event) {
-          event.preventDefault();
-          const dataId = this.getAttribute(
-            identificators.attributes.bookImageDataId
-          );
+    const booksList = document.querySelector(select.booksList);
+    booksList.addEventListener('dblclick', function (event) {
+      event.preventDefault();
+      const target = event.target.offsetParent;
 
-          if (!favoriteBooks.includes(dataId)) {
-            this.classList.add(identificators.class.favorite);
-            favoriteBooks.push(
-              this.getAttribute(identificators.attributes.bookImageDataId)
-            );
-          } else {
-            favoriteBooks = favoriteBooks.filter((id) => id !== dataId);
-            this.classList.remove(identificators.class.favorite);
-          }
+      if (target.classList.contains(identificators.class.bookImage)) {
+        const dataId = target.getAttribute(
+          identificators.attributes.bookImageDataId
+        );
+
+        if (!favoriteBooks.includes(dataId)) {
+          target.classList.add(identificators.class.favorite);
+          favoriteBooks.push(dataId);
+        } else {
+          favoriteBooks = favoriteBooks.filter((id) => id !== dataId);
+          target.classList.remove(identificators.class.favorite);
         }
-      );
-    }
+      }
+    });
   }
 
   function render() {
